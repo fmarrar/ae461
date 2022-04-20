@@ -85,6 +85,17 @@ ylabel('\sigma_{y} (psi)', 'fontsize', 14)
 legend({'Data ($\sigma_y$ vs $\epsilon_y$)', 'Fit ($\beta_0 + \beta_1 \epsilon_y$)'}, ...
     'Interpreter','latex', 'Location','northeast', 'FontSize',11)
 saveas(figure(3), 'sigmayAl1.eps', 'epsc')
+
+figure(4), clf, hold on, grid on;
+plot(eps_yy_Al2, sigmayy_Al2, 'b.', 'MarkerSize', 12);
+plot(eps_yy_Al2, polyval(p2_Bending_Al_sigma, eps_yy_Al2), 'LineWidth', 2);
+text(1e-5, -2e-5, ...
+    sprintf('{\\sigma_{y} = %0.5g + %0.5g \\epsilon_y}', p2_Bending_Al_sigma(2), p2_Bending_Al_sigma(1)), 'FontSize',12);
+xlabel('\epsilon_{y}', 'fontsize', 14)
+ylabel('\sigma_{y} (psi)', 'fontsize', 14)
+legend({'Data ($\sigma_y$ vs $\epsilon_y$)', 'Fit ($\beta_0 + \beta_1 \epsilon_y$)'}, ...
+    'Interpreter','latex', 'Location','northeast', 'FontSize',11)
+saveas(figure(4), 'sigmayAl2.eps', 'epsc')
 %% Composite - Bending
 [eps_yyp_comp1, eps_yy_comp1, eps_xxp_comp1] = extractData('comp_bending_123.txt'); % in/in
 [eps_yyp_comp2, eps_yy_comp2, eps_xxp_comp2] = extractData('comp_bending_456.txt'); % in/in
@@ -125,6 +136,50 @@ p2_Bending_comp_eps = polyfit(eps_yy_comp2, eps_xx_comp2, 1);
 
 % Poisson Ratio for Composite
 v_comp1 = abs((p1_Bending_comp_eps(1) + p2_Bending_comp_eps(1)))/2;
+
+figure(5), clf, hold on, grid on;
+plot(eps_yy_comp1, eps_xx_comp1, 'b.', 'MarkerSize', 12);
+plot(eps_yy_comp1, polyval(p1_Bending_comp_eps, eps_yy_comp1), 'LineWidth', 2);
+text(0.25e-4, -1.5e-4, ...
+    sprintf('{\\epsilon_{x} = %0.5g + %0.5g \\epsilon_y}', p1_Bending_comp_eps(2), p1_Bending_comp_eps(1)), 'FontSize',12);
+xlabel('\epsilon_{y}', 'fontsize', 14)
+ylabel('\epsilon_{x}', 'rotation', 0, 'fontsize', 14)
+legend({'Data ($\epsilon_x$ vs $\epsilon_y$)', 'Fit ($\beta_0 + \beta_1 \epsilon_y$)'}, ...
+    'Interpreter','latex', 'Location','northeast', 'FontSize',11)
+saveas(figure(5), 'epsxcomp1.eps', 'epsc')
+
+figure(6), clf, hold on, grid on;
+plot(eps_yy_comp2, eps_xx_comp2, 'b.', 'MarkerSize', 12);
+plot(eps_yy_comp2, polyval(p2_Bending_comp_eps, eps_yy_comp2), 'LineWidth', 2);
+text(0, -2.5e-4, ...
+    sprintf('{\\epsilon_{x} = %0.5g + %0.5g \\epsilon_y}', p2_Bending_comp_eps(2), p2_Bending_comp_eps(1)), 'FontSize',12);
+xlabel('\epsilon_{y}', 'fontsize', 14)
+ylabel('\epsilon_{x}', 'rotation', 0, 'fontsize', 14)
+legend({'Data ($\epsilon_x$ vs $\epsilon_y$)', 'Fit ($\beta_0 + \beta_1 \epsilon_y$)'}, ...
+    'Interpreter','latex', 'Location','northeast', 'FontSize',11)
+saveas(figure(6), 'epsxcomp2.eps', 'epsc')
+
+figure(7), clf, hold on, grid on;
+plot(eps_yy_comp1, sigmayy_comp1, 'b.', 'MarkerSize', 12);
+plot(eps_yy_comp1, polyval(p1_Bending_comp_sigma, eps_yy_comp1), 'LineWidth', 2);
+text(0.75e-4, 100, ...
+    sprintf('{\\sigma_{y} = %0.5g + %0.5g \\epsilon_y}', p1_Bending_comp_sigma(2), p1_Bending_comp_sigma(1)), 'FontSize',12);
+xlabel('\epsilon_{y}', 'fontsize', 14)
+ylabel('\sigma_{y} (psi)', 'fontsize', 14)
+legend({'Data ($\sigma_y$ vs $\epsilon_y$)', 'Fit ($\beta_0 + \beta_1 \epsilon_y$)'}, ...
+    'Interpreter','latex', 'Location','northeast', 'FontSize',11)
+saveas(figure(7), 'sigmaycomp1.eps', 'epsc')
+
+figure(8), clf, hold on, grid on;
+plot(eps_yy_comp2, sigmayy_comp2, 'b.', 'MarkerSize', 12);
+plot(eps_yy_comp2, polyval(p2_Bending_comp_sigma, eps_yy_comp2), 'LineWidth', 2);
+text(2e-4, 50, ...
+    sprintf('{\\sigma_{y} = %0.5g + %0.5g \\epsilon_y}', p2_Bending_comp_sigma(2), p2_Bending_comp_sigma(1)), 'FontSize',12);
+xlabel('\epsilon_{y}', 'fontsize', 14)
+ylabel('\sigma_{y} (psi)', 'fontsize', 14)
+legend({'Data ($\sigma_y$ vs $\epsilon_y$)', 'Fit ($\beta_0 + \beta_1 \epsilon_y$)'}, ...
+    'Interpreter','latex', 'Location','northeast', 'FontSize',11)
+saveas(figure(8), 'sigmaycomp2.eps', 'epsc')
 %% Aluminum - Torsion
 [eps_yyp_Al1, eps_yy_Al1, eps_xxp_Al1] = extractData('Al_torsion_123.txt'); % in/in
 [eps_yyp_Al2, eps_yy_Al2, eps_xxp_Al2] = extractData('Al_torsion_456.txt'); % in/in
@@ -142,14 +197,36 @@ gammaAl2 = eps_xxp_Al2 - eps_yyp_Al2;
 My = 10*P;
 
 % Tangential Shear Stress
-sigmasy = My/(2*tAl*AencAl);
+sigmasy_Al = My/(2*tAl*AencAl);
 
 % Best line fit through sigmasy vs gamma
-p1_Torsion_Al = polyfit(gammaAl1, sigmasy, 1);
-p2_Torsion_Al = polyfit(gammaAl2, sigmasy, 1);
+p1_Torsion_Al = polyfit(gammaAl1, sigmasy_Al, 1);
+p2_Torsion_Al = polyfit(gammaAl2, sigmasy_Al, 1);
 
 % Shear modulus for Aluminum
 G_Al1 = abs(p1_Torsion_Al(1) + p2_Torsion_Al(1))/2;
+
+figure(9), clf, hold on, grid on;
+plot(gammaAl1, sigmasy_Al, 'b.', 'MarkerSize', 12);
+plot(gammaAl1, polyval(p1_Torsion_Al, gammaAl1), 'LineWidth', 2);
+text(-3e-5, 10, ...
+    sprintf('{\\sigma_{sy} = %0.5g + %0.5g \\gamma_{xy}}', p1_Torsion_Al(2), p1_Torsion_Al(1)), 'FontSize',12);
+xlabel('\gamma_{xy}', 'fontsize', 14)
+ylabel('\sigma_{sy} (psi)', 'fontsize', 14)
+legend({'Data ($\sigma_{sy}$ vs $\gamma_{xy}$)', 'Fit ($\beta_0 + \beta_1 \gamma_{xy}$)'}, ...
+    'Interpreter','latex', 'Location','northeast', 'FontSize',11)
+saveas(figure(9), 'sigmasyAl1.eps', 'epsc')
+
+figure(10), clf, hold on, grid on;
+plot(gammaAl2, sigmasy_Al, 'b.', 'MarkerSize', 12);
+plot(gammaAl2, polyval(p2_Torsion_Al, gammaAl2), 'LineWidth', 2);
+text(-3e-5, 10, ...
+    sprintf('{\\sigma_{sy} = %0.5g + %0.5g \\gamma_{xy}}', p2_Torsion_Al(2), p2_Torsion_Al(1)), 'FontSize',12);
+xlabel('\gamma_{xy}', 'fontsize', 14)
+ylabel('\sigma_{sy} (psi)', 'fontsize', 14)
+legend({'Data ($\sigma_{sy}$ vs $\gamma_{xy}$)', 'Fit ($\beta_0 + \beta_1 \gamma_{xy}$)'}, ...
+    'Interpreter','latex', 'Location','northeast', 'FontSize',11)
+saveas(figure(10), 'sigmasyAl2.eps', 'epsc')
 %% Composite - Torsion
 [eps_yyp_comp1, eps_yy_comp1, eps_xxp_comp1] = extractData('comp_torsion_123.txt'); % in/in
 [eps_yyp_comp2, eps_yy_comp2, eps_xxp_comp2] = extractData('comp_torsion_456.txt'); % in/in
@@ -166,15 +243,38 @@ gammacomp2 = eps_xxp_comp2 - eps_yyp_comp2;
 % Twisting Moment
 My = 10*P;
 
-% Tangenticomp Shear Stress
-sigmasy = My/(2*tcomp*Aenccomp);
+% Tangential Shear Stress
+sigmasy_comp = My/(2*tcomp*Aenccomp);
 
 % Best line fit through sigmasy vs gamma
-p1_Torsion_comp = polyfit(gammacomp1, sigmasy, 1);
-p2_Torsion_comp = polyfit(gammacomp2, sigmasy, 1);
+p1_Torsion_comp = polyfit(gammacomp1, sigmasy_comp, 1);
+p2_Torsion_comp = polyfit(gammacomp2, sigmasy_comp, 1);
 
 % Shear modulus for compuminum
 G_comp1 = abs(p1_Torsion_comp(1) + p2_Torsion_comp(1))/2;
+
+figure(11), clf, hold on, grid on;
+plot(gammacomp1, sigmasy_comp, 'b.', 'MarkerSize', 12);
+plot(gammacomp1, polyval(p1_Torsion_comp, gammacomp1), 'LineWidth', 2);
+text(-0.8e-4, 25, ...
+    sprintf('{\\sigma_{sy} = %0.5g + %0.5g \\gamma_{xy}}', p1_Torsion_comp(2), p1_Torsion_comp(1)), 'FontSize',12);
+xlabel('\gamma_{xy}', 'fontsize', 14)
+ylabel('\sigma_{sy} (psi)', 'fontsize', 14)
+legend({'Data ($\sigma_{sy}$ vs $\gamma_{xy}$)', 'Fit ($\beta_0 + \beta_1 \gamma_{xy}$)'}, ...
+    'Interpreter','latex', 'Location','northeast', 'FontSize',11)
+saveas(figure(11), 'sigmasycomp1.eps', 'epsc')
+
+figure(12), clf, hold on, grid on;
+plot(gammacomp2, sigmasy_comp, 'b.', 'MarkerSize', 12);
+plot(gammacomp2, polyval(p2_Torsion_comp, gammacomp2), 'LineWidth', 2);
+text(-7e-5, 25, ...
+    sprintf('{\\sigma_{sy} = %0.5g + %0.5g \\gamma_{xy}}', p2_Torsion_comp(2), p2_Torsion_comp(1)), 'FontSize',12);
+xlabel('\gamma_{xy}', 'fontsize', 14)
+ylabel('\sigma_{sy} (psi)', 'fontsize', 14)
+legend({'Data ($\sigma_{sy}$ vs $\gamma_{xy}$)', 'Fit ($\beta_0 + \beta_1 \gamma_{xy}$)'}, ...
+    'Interpreter','latex', 'Location','northeast', 'FontSize',11)
+ylim([0, 250])
+saveas(figure(12), 'sigmasycomp2.eps', 'epsc')
 %% Aluminum - Twist Angle
 d1 = [0.07, 0.14, 0.21, 0.28, 0.349]*0.0393701; % Left gauge
 d2 = [0.095, 0.19, 0.28, 0.37, 0.465]*0.0393701; % Right gauge
