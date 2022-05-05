@@ -1,0 +1,247 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>script</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-04-03"><meta name="DC.source" content="script.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Question 1</a></li><li><a href="#2">Question 2</a></li><li><a href="#3">Question 3</a></li><li><a href="#4">Question 4</a></li></ul></div><h2 id="1">Question 1</h2><p>Part a</p><pre class="codeinput">vf = [0.6-0.05, 0.6+0.05];
+vm = ones(1, length(vf)) - vf;
+
+Em = 2.4e9;
+Ef = 120e9;
+Gm = Em/(2*(1 + 0.35));
+Gf = Ef/(2*(1 + 0.32));
+
+Ex = vf*Ef + vm*Em;
+Ey = 1./(1/Ef * vf + 1/Em * vm);
+vxy = vf.*vf + vm.*vm;
+Gxy = 1./(1/Gf * vf + 1/Gm * vm);
+
+<span class="comment">% Part b</span>
+Exavg = mean(Ex);
+Exstd = std(Ex);
+
+Eyavg = mean(Ey);
+Eystd = std(Ey);
+
+vxyavg = mean(vxy);
+vxystd = std(vxy);
+
+Gxyavg = mean(Gxy);
+Gxystd = std(Gxy);
+</pre><h2 id="2">Question 2</h2><pre class="codeinput">Ex = 181;
+Ey = 10.3;
+vxy = 0.28;
+Gxy = 7.17;
+
+c = 1/(1 - vxy^2 * Ey/Ex);
+
+Q11bar = c*Ex;
+Q22bar = c*Ey;
+Q12bar = c*vxy*Ey;
+Q66bar = Gxy;
+
+theta = linspace(0, pi/2, 101);
+m = cos(theta);
+n = sin(theta);
+Q11 = m.^4*Q11bar + n.^4*Q22bar + 2*m.^2 .* n.^2*Q12bar + 4*m.^2 .* n.^2*Q66bar;
+
+figure(1), clf, hold <span class="string">on</span>, grid <span class="string">on</span>;
+plot(rad2deg(theta), Q11, <span class="string">'LineWidth'</span>,2);
+xlabel(<span class="string">'$\theta$ (deg)'</span>, <span class="string">'Interpreter'</span>,<span class="string">'latex'</span>)
+ylabel(<span class="string">'In-plane longitudinal stiffness (GPa)'</span>,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>)
+
+<span class="comment">% Part a</span>
+thetaA = rad2deg(theta(40));
+thetaB = rad2deg(theta(50));
+
+<span class="comment">% Part b</span>
+thetaC = rad2deg(theta(16));
+</pre><img vspace="5" hspace="5" src="script_01.png" alt=""> <h2 id="3">Question 3</h2><pre class="codeinput">Q16 = m.^3 .* n * Q11bar - m .* n.^3 * Q22bar + (m .* n.^3 - m.^3 .* n)*Q12bar + 2*(m .* n.^3 - m.^3 .* n)*Q66bar;
+
+theta3 = rad2deg(theta(Q16 == max(Q16)));
+</pre><h2 id="4">Question 4</h2><pre class="codeinput">Ex = 38.6e9;
+Ey = 8.27e9;
+vxy = 0.26;
+Gxy = 4.14e9;
+
+X = 1062e6;
+Xp = 610e6;
+Y = 31e6;
+Yp = 118e6;
+S = 72e6;
+
+F1bar = 1/X - 1/Xp;
+F2bar = 1/Y - 1/Yp;
+
+F11bar = 1/(X*Xp);
+F22bar = 1/(Y*Yp);
+F12bar = -1/2 * sqrt(F11bar * F22bar);
+F66bar = 1/S^2;
+
+theta = deg2rad(15);
+m = cos(theta);
+n = sin(theta);
+
+F1 = m^2*F1bar + n^2*F2bar;
+F11 = m^4*F11bar + n^4*F22bar + 2*m^2*n^2*F12bar + 4*m^2*n^2*F66bar;
+
+z = roots([F11, F1, -1]);
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Question 1
+% Part a
+vf = [0.6-0.05, 0.6+0.05];
+vm = ones(1, length(vf)) - vf;
+
+Em = 2.4e9;
+Ef = 120e9;
+Gm = Em/(2*(1 + 0.35));
+Gf = Ef/(2*(1 + 0.32));
+
+Ex = vf*Ef + vm*Em;
+Ey = 1./(1/Ef * vf + 1/Em * vm);
+vxy = vf.*vf + vm.*vm;
+Gxy = 1./(1/Gf * vf + 1/Gm * vm);
+
+% Part b
+Exavg = mean(Ex);
+Exstd = std(Ex);
+
+Eyavg = mean(Ey);
+Eystd = std(Ey);
+
+vxyavg = mean(vxy);
+vxystd = std(vxy);
+
+Gxyavg = mean(Gxy);
+Gxystd = std(Gxy);
+
+%% Question 2
+Ex = 181;
+Ey = 10.3;
+vxy = 0.28;
+Gxy = 7.17;
+
+c = 1/(1 - vxy^2 * Ey/Ex);
+
+Q11bar = c*Ex;
+Q22bar = c*Ey;
+Q12bar = c*vxy*Ey;
+Q66bar = Gxy;
+
+theta = linspace(0, pi/2, 101);
+m = cos(theta);
+n = sin(theta);
+Q11 = m.^4*Q11bar + n.^4*Q22bar + 2*m.^2 .* n.^2*Q12bar + 4*m.^2 .* n.^2*Q66bar;
+
+figure(1), clf, hold on, grid on;
+plot(rad2deg(theta), Q11, 'LineWidth',2);
+xlabel('$\theta$ (deg)', 'Interpreter','latex')
+ylabel('In-plane longitudinal stiffness (GPa)','Interpreter','latex')
+
+% Part a 
+thetaA = rad2deg(theta(40));
+thetaB = rad2deg(theta(50));
+
+% Part b
+thetaC = rad2deg(theta(16));
+
+%% Question 3
+Q16 = m.^3 .* n * Q11bar - m .* n.^3 * Q22bar + (m .* n.^3 - m.^3 .* n)*Q12bar + 2*(m .* n.^3 - m.^3 .* n)*Q66bar;
+
+theta3 = rad2deg(theta(Q16 == max(Q16)));
+
+%% Question 4
+Ex = 38.6e9;
+Ey = 8.27e9;
+vxy = 0.26;
+Gxy = 4.14e9;
+
+X = 1062e6;
+Xp = 610e6;
+Y = 31e6;
+Yp = 118e6;
+S = 72e6;
+
+F1bar = 1/X - 1/Xp;
+F2bar = 1/Y - 1/Yp;
+
+F11bar = 1/(X*Xp);
+F22bar = 1/(Y*Yp);
+F12bar = -1/2 * sqrt(F11bar * F22bar);
+F66bar = 1/S^2;
+
+theta = deg2rad(15);
+m = cos(theta);
+n = sin(theta);
+
+F1 = m^2*F1bar + n^2*F2bar;
+F11 = m^4*F11bar + n^4*F22bar + 2*m^2*n^2*F12bar + 4*m^2*n^2*F66bar;
+
+z = roots([F11, F1, -1]);
+##### SOURCE END #####
+--></body></html>

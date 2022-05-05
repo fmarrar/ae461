@@ -1,0 +1,90 @@
+clear, clc, close all
+rhoM = 1.15;
+rhoF = 1.84;
+%% Extracting Data
+[T0, d0, F0, eps0] = extractData(0);
+[T45, d45, F45, eps45] = extractData(45);
+[T90, d90, F90, eps90] = extractData(90);
+
+%% Dimensions and Masses
+% Before Curing
+L0B = in2cm(7);
+L45B = L0B;
+L90B = L0B;
+
+w0B = in2cm(0.93);
+w45B = in2cm(0.9);
+w90B = in2cm(0.95);
+
+t0B = in2cm(0.08);
+t45B = in2cm(0.09);
+t90B = in2cm(0.11);
+
+m0B = 7.7989 - 0.3185 - 0.2843; % g 
+m45B = 15.8521 - 0.2862 - 0.2475; % g
+m90B = 11.8783 - 0.2865 - 0.2904; % g
+
+% After Curing
+L0A = 10;
+L45A = 9.7;
+L90A = 10.2;
+
+w0A = 2.4458;
+w45A = 2.3388;
+w90A = 2.523;
+
+t0A = 0.239;
+t45A = 0.2586;
+t90A = 0.3606;
+
+m0A = 6.4332;
+m45A = 9.2716;
+m90A = 9.382;
+%% Lab 1
+[rho0B, vf0B] = lab1_analysis(rhoM, rhoF, m0B, L0B, w0B, t0B);
+[rho45B, vf45B] = lab1_analysis(rhoM, rhoF, m45B, L45B, w45B, t45B);
+[rho90B, vf90B] = lab1_analysis(rhoM, rhoF, m90B, L90B, w90B, t90B);
+
+[rho0A, vf0A] = lab1_analysis(rhoM, rhoF, m0A, L0A, w0A, t0A);
+[rho45A, vf45A] = lab1_analysis(rhoM, rhoF, m45A, L45A, w45A, t45A);
+[rho90A, vf90A] = lab1_analysis(rhoM, rhoF, m90A, L90A, w90A, t90A);
+
+VS0 = abs(L0B*w0B*t0B - L0A*w0A*t0A)/(L0A*w0A*t0A) * 100;
+VS45 = abs(L45B*w45B*t45B - L45A*w45A*t45A)/(L45A*w45A*t45A) * 100;
+VS90 = abs(L90B*w90B*t90B - L90A*w90A*t90A)/(L90A*w90A*t90A) * 100;
+
+P = 6894.75729*150;
+F0 = P*(w0B*t0B*0.0001);
+F45 = P*(w45B*t45B*0.0001);
+F90 = P*(w90B*t90B*0.0001);
+%% Lab 6
+% Cross-sectional area (sqm)
+A0 = w0A*t0A;
+A45 = w45A*t45A;
+A90 = w90A*t90A;
+
+% Tensile stress (Pa)
+sigma0 = F0*10^3/A0;
+sigma45 = F45*10^3/A45;
+sigma90 = F90*10^3/A90;
+
+figure(1), clf, hold on, grid on;
+plot(eps0(129:389), sigma0(129:389), 'LineWidth',1.5);
+xlabel('\epsilon', 'FontSize',13);
+ylabel('\sigma (Pa)', 'FontSize',13);
+saveas(figure(1), 'sigma0.eps', 'epsc')
+
+figure(2), clf, hold on, grid on;
+plot(eps45(1:343), sigma45(1:343), 'LineWidth',1.5);
+xlabel('\epsilon', 'FontSize',13);
+ylabel('\sigma (Pa)', 'FontSize',13);
+saveas(figure(2), 'sigma45.eps', 'epsc')
+
+figure(3), clf, hold on, grid on;
+plot(eps90(1:22), sigma90(1:22), 'LineWidth',1.5);
+xlabel('\epsilon', 'FontSize',13);
+ylabel('\sigma (Pa)', 'FontSize',13);
+saveas(figure(3), 'sigma90.eps', 'epsc')
+
+Ef = 235e9;
+Gf = 14e9;
